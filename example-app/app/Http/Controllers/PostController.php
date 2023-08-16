@@ -26,34 +26,4 @@ class PostController extends Controller
         ]);
     }
 
-    public function create()
-    {
-        return view('posts.create');
-    }
-
-    public function store(Post $post)
-    {
-
-        $attributes = request()->validate([
-            'title' => 'required',
-            'excerpt' => 'required',
-            'body' => 'required',
-            'thumbnail' => 'required|image',
-            'category_id' => [
-                'required',
-                Rule::exists('categories', 'id')
-            ]
-        ]);
-        $attributes['slug'] = Str::slug($attributes['title']);
-        $counter = 1;
-        while (Post::where('slug', $attributes['slug'])->exists()) {
-            $attributes['slug'] = $attributes['slug'] . '-' . $counter;
-            $counter++;
-        }
-        $attributes['user_id'] = auth()->id();
-        $attributes['thumbnail'] = request()->file('thumbnail')->store('thumbnail');
-
-        Post::create($attributes);
-        return redirect("/posts/{$attributes['slug']}")->with('success','Post is successfully created ‍🚀 ');
-    }
 }
