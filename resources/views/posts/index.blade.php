@@ -8,6 +8,7 @@
             <p class="text-center">No Post Yet Please Come Back Later!</p>
         @endif
     </main>
+//mobile
 </x-layout>
 
 
